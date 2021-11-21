@@ -2,6 +2,7 @@ package models
 
 type Person struct {
 	ID                 int `json:"id,omitempty"`
+	IdPersona          int `json:"persona"`
 	IdVacunadosCovid   int `json:"vacunadosCovid"`
 	IdEess             int `json:"eess"`
 	IdCentroVacunacion int `json:"centroVacunacion"`
