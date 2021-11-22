@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"tfC19Helper/svc/cnnnetwork"
 	"tfC19Helper/svc/handlers"
 	"tfC19Helper/svc/models"
 	"tfC19Helper/svc/repository"
@@ -12,10 +13,12 @@ import (
 )
 
 func indexRoute(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Wecome the my GO API!")
+	fmt.Fprintf(w, "Welcome the my GO API!")
 }
 
 func main() {
+	cnnnetwork.NeuronalNetworkCNN()
+
 	repository.AddPerson(models.Person{
 		IdPersona:          1,
 		IdVacunadosCovid:   1,
@@ -42,7 +45,7 @@ func main() {
 	router.HandleFunc("/", indexRoute)
 	router.HandleFunc("/persons", handlers.AddPerson).Methods("POST")
 	router.HandleFunc("/persons", handlers.GetPersons).Methods("GET")
-	router.HandleFunc("/persons/{id}", handlers.GetPersonById).Methods("GET")
+	router.HandleFunc("/persons/{edad}", handlers.GetPersonByAge).Methods("GET")
 	// router.HandleFunc("/tasks/{id}", DetelePerson).Methods("DELETE")
 	// router.HandleFunc("/tasks/{id}", UpdatePerson).Methods("PUT")
 

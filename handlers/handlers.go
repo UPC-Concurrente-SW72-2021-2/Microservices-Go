@@ -105,9 +105,9 @@ func GetPersons(w http.ResponseWriter, r *http.Request) {
 	log.Println("Response Returned: ", 200)
 }
 
-func GetPersonById(w http.ResponseWriter, r *http.Request) {
+func GetPersonByAge(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	personID, err := strconv.Atoi(vars["id"])
+	personID, err := strconv.Atoi(vars["edad"])
 	person := repository.GetPersonById(personID)
 
 	if err != nil {
