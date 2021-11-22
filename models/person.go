@@ -11,3 +11,14 @@ type Person struct {
 	Dosis              int `json:"dosis"`
 	Edad               int `json:"edad"`
 }
+
+type PersonJs struct {
+	IdPersona          int
+	IdVacunadosCovid   int
+	IdEess             int
+	IdCentroVacunacion int
+	IdVacuna           int
+	IdGrupoRiesgo      int
+	Dosis              int
+	Edad               int
+}
