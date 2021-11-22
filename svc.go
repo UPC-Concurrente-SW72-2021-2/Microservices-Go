@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"tfC19Helper/svc/handlers"
 	"tfC19Helper/svc/models"
 	"tfC19Helper/svc/repository"
+
+	"github.com/gorilla/mux"
 )
 
 func indexRoute(w http.ResponseWriter, r *http.Request) {
@@ -47,5 +48,5 @@ func main() {
 	router.HandleFunc("/persons", handlers.GetPersons).Methods("GET")
 	router.HandleFunc("/persons/{edad}", handlers.GetPersonsByAge).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":3000", router))
+	log.Fatal(http.ListenAndServe(":80", router))
 }
