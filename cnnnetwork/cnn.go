@@ -250,7 +250,7 @@ func makeInputsAndLabels(fileName string) (*mat.Dense, *mat.Dense) {
 	return inputs, labels
 }
 
-func NeuronalNetworkCNN() {
+func NeuronalNetworkCNN() int {
 	inputs, labels := makeInputsAndLabels("data/train.csv")
 	config := CNNConfig{
 		inputNeurons:  4,
@@ -272,6 +272,7 @@ func NeuronalNetworkCNN() {
 	}
 
 	var truePosNeg int
+	var aux int
 	numPreds, _ := predictions.Dims()
 	for i := 0; i < numPreds; i++ {
 		labelRow := mat.Row(nil, i, testLabels)
@@ -282,11 +283,16 @@ func NeuronalNetworkCNN() {
 				break
 			}
 		}
+
+		aux = prediction
+
 		if predictions.At(i, prediction) == floats.Max(mat.Row(nil, i, predictions)) {
 			truePosNeg++
 		}
 	}
 
-	accuracy := float64(truePosNeg) / float64(numPreds)
+	accuracy := (float64(truePosNeg) - 1)/ float64(numPreds)
 	fmt.Printf("\nAccuracy = %0.2f\n\n", accuracy)
+
+	return aux
 }
