@@ -3,7 +3,6 @@ package cnnnetwork
 import (
 	"encoding/csv"
 	"errors"
-	"fmt"
 	"log"
 	"math"
 	"math/rand"
@@ -256,7 +255,7 @@ func NeuronalNetworkCNN() int {
 		inputNeurons:  4,
 		outputNeurons: 1,
 		hiddenNeurons: 3,
-		numEpochs:     5000,
+		numEpochs:     1000,
 		learningRate:  0.3,
 	}
 
@@ -283,16 +282,11 @@ func NeuronalNetworkCNN() int {
 				break
 			}
 		}
-
 		aux = prediction
-
 		if predictions.At(i, prediction) == floats.Max(mat.Row(nil, i, predictions)) {
 			truePosNeg++
 		}
 	}
-
-	accuracy := (float64(truePosNeg) - 1)/ float64(numPreds)
-	fmt.Printf("\nAccuracy = %0.2f\n\n", accuracy)
 
 	return aux
 }
