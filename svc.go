@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"tfC19Helper/svc/cnnnetwork"
 	"tfC19Helper/svc/handlers"
 	"tfC19Helper/svc/models"
 	"tfC19Helper/svc/repository"
@@ -17,7 +16,7 @@ func indexRoute(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	cnnnetwork.NeuronalNetworkCNN()
+	// cnnnetwork.NeuronalNetworkCNN()
 
 	repository.AddPerson(models.Person{
 		IdPersona:          1,
@@ -26,8 +25,8 @@ func main() {
 		IdCentroVacunacion: 1,
 		IdVacuna:           1,
 		IdGrupoRiesgo:      1,
-		Dosis:              1,
-		Edad:               1,
+		Dosis:              0,
+		Edad:               15,
 	})
 	repository.AddPerson(models.Person{
 		IdPersona:          2,
@@ -36,8 +35,8 @@ func main() {
 		IdCentroVacunacion: 2,
 		IdVacuna:           2,
 		IdGrupoRiesgo:      2,
-		Dosis:              2,
-		Edad:               2,
+		Dosis:              1,
+		Edad:               15,
 	})
 
 	router := mux.NewRouter().StrictSlash(true)
@@ -45,7 +44,7 @@ func main() {
 	router.HandleFunc("/", indexRoute)
 	router.HandleFunc("/persons", handlers.AddPerson).Methods("POST")
 	router.HandleFunc("/persons", handlers.GetPersons).Methods("GET")
-	router.HandleFunc("/persons/{edad}", handlers.GetPersonByAge).Methods("GET")
+	router.HandleFunc("/persons/{edad}", handlers.GetPersonsByAge).Methods("GET")
 	// router.HandleFunc("/tasks/{id}", DetelePerson).Methods("DELETE")
 	// router.HandleFunc("/tasks/{id}", UpdatePerson).Methods("PUT")
 

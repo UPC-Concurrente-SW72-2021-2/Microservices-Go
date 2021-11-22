@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"tfC19Helper/svc/cnnnetwork"
 	"tfC19Helper/svc/models"
 )
 
@@ -18,11 +19,13 @@ func AddPerson(person models.Person) int {
 	return person.ID
 }
 
-func GetPersonById(personID int) models.Person {
+func GetPersonsByAge(personAge int) ([]models.Person, int) {
+	var personsAge []models.Person
+	prediction := cnnnetwork.NeuronalNetworkCNN()
 	for _, person := range persons {
-		if person.ID == personID {
-			return person
+		if person.Edad == personAge && person.Dosis == prediction {
+			personsAge = append(personsAge, person)
 		}
 	}
-	return models.Person{}
+	return personsAge, prediction
 }

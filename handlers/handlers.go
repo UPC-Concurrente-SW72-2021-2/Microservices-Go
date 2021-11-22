@@ -12,72 +12,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// func HandleRequest(w http.ResponseWriter, r *http.Request) {
-// 	log.Println("Request received: ", r.Method)
-
-// 	switch r.Method {
-// 	case http.MethodGet:
-// 		list(w, r)
-// 		break
-// 	// case http.MethodPost:
-// 	// 	add(w, r)
-// 	// 	break
-// 	default:
-// 		w.WriteHeader(405)
-// 		w.Write([]byte("Method not allowed"))
-// 		break
-// 	}
-// }
-
-// func list(w http.ResponseWriter, r *http.Request) {
-// 	persons := repository.GetPersons()
-// 	json, _ := json.Marshal(persons)
-
-// 	w.Header().Add("Content-Type", "application/json")
-// 	w.WriteHeader(200)
-// 	w.Write(json)
-
-// 	log.Println("Response Returned: ", 200)
-// }
-
-// func add(w http.ResponseWriter, r *http.Request) {
-// 	payload, _ := ioutil.ReadAll(r.Body)
-
-// 	var person models.Person
-// 	err := json.Unmarshal(payload, &person)
-
-// 	if err != nil || person.IdVacunadosCovid == 0 || person.IdEess == 0 || person.IdCentroVacunacion == 0 || person.IdVacuna == 0 || person.IdGrupoRiesgo == 0 || person.Dosis == 0 || person.Edad == 0 {
-// 		w.WriteHeader(400)
-// 		w.Write([]byte("Bad Request"))
-// 		return
-// 	}
-
-// 	person.ID = repository.AddPerson(person)
-
-// 	w.Header().Add("Content-Type", "application/json")
-// 	w.WriteHeader(201)
-
-// 	json, _ := json.Marshal(person)
-// 	w.Write(json)
-
-// 	log.Println("Response Returned: ", 201)
-// }
-
-// func HandlePredict(w http.ResponseWriter, r *http.Request) {
-// 	log.Println("Request received: ", r.Method)
-// // 	persons :=repository.GetPersons()
-// // 	edad:=r.FormValue("edad")
-
-// // 	w.Header().Add("Content-Type", "application/json")
-// }
-
 func AddPerson(w http.ResponseWriter, r *http.Request) {
 	payload, _ := ioutil.ReadAll(r.Body)
 
 	var person models.Person
 	err := json.Unmarshal(payload, &person)
 
-	if err != nil || person.IdVacunadosCovid == 0 || person.IdEess == 0 || person.IdCentroVacunacion == 0 || person.IdVacuna == 0 || person.IdGrupoRiesgo == 0 || person.Dosis == 0 || person.Edad == 0 {
+	if err != nil || person.IdVacunadosCovid == 0 || person.IdEess == 0 || person.IdCentroVacunacion == 0 || person.IdVacuna == 0 || person.IdGrupoRiesgo == 0 || person.Edad == 0 {
 		w.WriteHeader(400)
 		w.Write([]byte("Bad Request"))
 		return
@@ -105,23 +46,28 @@ func GetPersons(w http.ResponseWriter, r *http.Request) {
 	log.Println("Response Returned: ", 200)
 }
 
-func GetPersonByAge(w http.ResponseWriter, r *http.Request) {
+func GetPersonsByAge(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	personID, err := strconv.Atoi(vars["edad"])
-	person := repository.GetPersonById(personID)
+	personAge, err := strconv.Atoi(vars["edad"])
+	persons, predictionAge := repository.GetPersonsByAge(personAge)
 
 	if err != nil {
 		return
 	}
 
-	if person.ID == 0 {
+	if persons == nil {
+		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(400)
 		w.Write([]byte("Bad Request"))
+		log.Println("Prediction: ", predictionAge)
 		return
 	}
 
-	json, _ := json.Marshal(person)
+	json, _ := json.Marshal(persons)
+
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(200)
 	w.Write(json)
+
+	log.Println("Response Returned: ", 200)
 }
